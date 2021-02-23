@@ -15,28 +15,30 @@ function [I, C] = kMeans(k, D, tau)
 %I = partition
 %C = cluster means
 
+    %Dimensions
+    p = size(D,2);
 
-%Dimensions
-[n, p] = size(D);
+    %Randomize the intitial partition
+    I = initIndexing(p, k);
 
-I = initIndexing(p, k);
+    %Get the coherence
+    C = zeros(size(D,1), k);
+    lastQ = totalCoherence(I, D, C, @norm);
 
-%Initialize cluster means
-C = zeros(size(D));
-for c = 1:k
-    C(c) = getMean(D(I == c));
-end
+    %Initialize cluster means
+    C = getMeans(I, D, k);
 
-%Calculate coherence
-Q = totalCoherence(I, D, C);
+    %Repartition
+    [I, Q] = repartition(D, C, @norm);
 
-%Repartition
+    while abs(Q - lastQ) >= tau
+        lastQ = Q;
 
+        %Get cluster means
+        C = getMeans(I, D, k);
 
-
-
-
-
-
+        %Repartition
+        [I, Q] = repartition(D, C, @norm);
+    end
 end
 
