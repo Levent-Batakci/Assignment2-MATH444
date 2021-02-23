@@ -2,7 +2,7 @@
 %2/22/2021
 %MATH444 Assignment 2
 
-function [I, C] = kMeans(k, D, tau)
+function [I, Q, C, t] = kMeans(k, D, tau, maxDepth)
 %KMEANS is a function that separates the data into
 %  k clusters by using alternating optimization.
 %This optimization is iterative, and stops when the
@@ -20,9 +20,14 @@ function [I, C] = kMeans(k, D, tau)
 
     %Randomize the intitial partition
     I = initIndexing(p, k);
-
+    
     %Get the coherence
+    t=0;
     C = zeros(size(D,1), k);
+    for i = 1:k
+        samples = D(:, I == i);
+        C(:,i) = samples(:,1);
+    end
     lastQ = totalCoherence(I, D, C, @norm);
 
     %Initialize cluster means
@@ -30,7 +35,8 @@ function [I, C] = kMeans(k, D, tau)
 
     %Repartition
     [I, Q] = repartition(D, C, @norm);
-
+    t=1;
+        
     while abs(Q - lastQ) >= tau
         lastQ = Q;
 
@@ -39,6 +45,18 @@ function [I, C] = kMeans(k, D, tau)
 
         %Repartition
         [I, Q] = repartition(D, C, @norm);
+        
+        t=t+1;
     end
+    
+    if(maxDepth >= 1)
+        %Check that the code isn't giving a garbage answer
+        for j = 1:k
+            if(~any(I == j))
+                [I, Q, C, t] = kMeans(k, D, tau, maxDepth-1);
+            end
+        end
+    end
+    
 end
 

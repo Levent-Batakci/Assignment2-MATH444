@@ -3,7 +3,7 @@ function Q = coherence(D, rep, dist)
 %   with representative vector rep, using measure dist
     
     Q = 0;
-    for i = 1: numel(D)
+    for i = 1:size(D,2)
         Q = Q + dist(D(:,i)-rep);
     end
 end
