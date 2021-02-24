@@ -9,5 +9,5 @@ tau = 0.05;
 
 
 I1= [1 1 2 2];
-I2= [2 2 2 1];
+I2= [2 2 1 1];
 compareClustering(I1, I2, 2)
