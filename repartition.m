@@ -9,10 +9,10 @@ function [I, Q] = repartition(D, C, dist)
     for i = 1:p
         d = D(:, i);
         
-        bestDist = dist(d - C(:,1));
+        bestDist = dist(d,C(:,1));
         cluster = 1;
         for j = 2:k
-            newDist = dist(d - C(:,j));
+            newDist = dist(d,C(:,j));
             if(newDist < bestDist)
                 bestDist = newDist;
                 cluster = j;

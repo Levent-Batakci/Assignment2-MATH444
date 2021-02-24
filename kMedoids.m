@@ -2,7 +2,7 @@
 %2/22/2021
 %MATH444 Assignment 2
 
-function [I, cI] = kMedoids(k, D, tau, maxDepth)
+function [I, cI] = kMedoids(k, D, tau, maxDepth, dist)
 %KMEDOIDS is a function that separates the data into
 %  k clusters by using alternating optimization.
 %This optimization is iterative, and stops when the
@@ -26,23 +26,23 @@ function [I, cI] = kMedoids(k, D, tau, maxDepth)
     %Randomize the intitial rep. vectors and get the Coherence
     i = 1:p;
     C = datasample(unique(D', 'rows')', k, 2, 'Replace', false);
-    lastQ = totalCoherence(I, D, C, @norm);
+    lastQ = totalCoherence(I, D, C, dist);
 
     %Initialize partition
-    I = repartition(D, C, @norm);
+    I = repartition(D, C, dist);
     
     %Choose new Medoids
-    [C, Q] = getMedoids(I, D, k, @norm);
+    [C, Q] = getMedoids(I, D, k, dist);
     t=1;
         
     while abs(Q - lastQ) >= tau
         lastQ = Q;
 
         %Update partition
-        I = repartition(D, C, @norm);
+        I = repartition(D, C, dist);
     
         %Choose new Medoids
-        [C, Q] = getMedoids(I, D, k, @norm);
+        [C, Q] = getMedoids(I, D, k, dist);
         
         t=t+1;
     end
@@ -51,7 +51,8 @@ function [I, cI] = kMedoids(k, D, tau, maxDepth)
         %Check that the code isn't giving a garbage answer
         for j = 1:k
             if(~any(I == j))
-                [I, cI] = kMeans(k, D, tau, maxDepth-1);
+                [I, cI] = kMeans(k, D, tau, maxDepth-1, dist);
+                return;
             end
         end
     end

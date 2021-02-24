@@ -4,7 +4,7 @@ function Q = coherence(D, rep, dist)
     
     Q = 0;
     for i = 1:size(D,2)
-        Q = Q + dist(D(:,i)-rep);
+        Q = Q + dist(D(:,i),rep);
     end
 end
 
