@@ -41,3 +41,5 @@ scatter(k1(1,:), k1(2,:),100,'r.')
 scatter(k2(1,:), k2(2,:),100,'g.')
 scatter(k3(1,:), k3(2,:),100,'b.')
 hold off
+
+compareClustering(I,I_, k)
