@@ -20,7 +20,7 @@ plot(1:13, diag(D), '.', 'MarkerSize', 25); %Only two svs (or just 1) matter
 
 figure(2)
 Z2 = [U(:,1) U(:,2)]' * X;
-[I_, C] = kMedoids(k, Z2, tau, maxDepth, @norm2);
+[I_, iC] = kMedoids(k, Z2, tau, maxDepth, @norm2);
 k1 = Z2(:, I_ == 1);
 k2 = Z2(:, I_ == 2);
 k3 = Z2(:, I_ == 3);
@@ -45,3 +45,19 @@ hold off
 
 compareClustering(I,I_, k)
 %%%
+
+%Load Congressional Vote Data
+load CongressionalVoteData.mat
+I=I+1;% Fix annotation
+
+%Remove the interesting fella who elected not to vote
+del = all(X==0);
+X(:, del) = [];
+I(:, del) = [];
+
+k=2;
+[I2, iC2] = kMedoids(k, X, tau, maxDepth, @norm2);
+
+compareClustering(I,I2, k)
+
+

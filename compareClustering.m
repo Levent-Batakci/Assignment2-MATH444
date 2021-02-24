@@ -15,7 +15,7 @@ function Accuracy = compareClustering(I, clustering, k)
         gp = group;
         while nnz(find(rep==r)) ~= 0
             gp = gp(gp ~= r);
-            r = mode(gp);
+            r = mode(gp)
         end
         rep(1,i)=r;
         Accuracy(1, i) = nnz((group==rep(1,i))) / numel(group);

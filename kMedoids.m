@@ -51,7 +51,7 @@ function [I, cI] = kMedoids(k, D, tau, maxDepth, dist)
         %Check that the code isn't giving a garbage answer
         for j = 1:k
             if(~any(I == j))
-                [I, cI] = kMeans(k, D, tau, maxDepth-1, dist);
+                [I, cI] = kMedoids(k, D, tau, maxDepth-1, dist);
                 return;
             end
         end
