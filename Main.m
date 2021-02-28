@@ -9,26 +9,33 @@ clear
 load WineData.mat
 
 k=3;
-tau=1;
+tau=0.05;
 maxDepth=5;
 %[I, C] = kMeans(k, X, tau, maxDepth, @norm);
 I = I';
 
+Xc = X - sum(X,2) / size(X,2) * ones(1, size(X,2));
+
 figure(1)
-[U D V] = svd(X, 'eco');
+[U D V] = svd(Xc);
 plot(1:13, diag(D), '.', 'MarkerSize', 25); %Only two svs (or just 1) matter
 
 figure(2)
 Z2 = [U(:,1) U(:,2)]' * X;
-[I_, iC] = kMedoids(k, Z2, tau, maxDepth, @norm2);
-k1 = Z2(:, I_ == 1);
-k2 = Z2(:, I_ == 2);
-k3 = Z2(:, I_ == 3);
+
+distMatrix = norm2Matrix(X);
+[I1, iC] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
+k1 = Z2(:, I1 == 1);
+k2 = Z2(:, I1 == 2);
+k3 = Z2(:, I1 == 3);
 
 hold on
-scatter(k1(1,:), k1(2,:),100,'r.')
-scatter(k2(1,:), k2(2,:),100,'g.')
-scatter(k3(1,:), k3(2,:),100,'b.')
+scatter(k1(1,:), k1(2,:),125,'r.')
+scatter(k2(1,:), k2(2,:),125,'g.')
+scatter(k3(1,:), k3(2,:),125,'b.')
+xlabel("PC 1")
+ylabel("PC 2");
+set(gca,'FontSize', 15);
 hold off
 
 %Check for accuracy
@@ -38,12 +45,16 @@ k2 = Z2(:, I == 2);
 k3 = Z2(:, I == 3);
 
 hold on
-scatter(k1(1,:), k1(2,:),100,'r.')
-scatter(k2(1,:), k2(2,:),100,'g.')
-scatter(k3(1,:), k3(2,:),100,'b.')
+scatter(k1(1,:), k1(2,:),125,'r.')
+scatter(k2(1,:), k2(2,:),125,'g.')
+scatter(k3(1,:), k3(2,:),125,'b.')
+xlabel("PC 1");
+ylabel("PC 2");
+set(gca,'FontSize', 15);
 hold off
 
-compareClustering(I,I_, k)
+compareClustering(I,I1, k);
+evaluateClustering(I,I1,k)
 %%%
 
 %Load Congressional Vote Data
@@ -56,8 +67,15 @@ X(:, del) = [];
 I(:, del) = [];
 
 k=2;
-[I2, iC2] = kMedoids(k, X, tau, maxDepth, @norm2);
+distMatrix = dissimilarityMatrix(X);
+[I2, iC2] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
 
-compareClustering(I,I2, k)
+X(:,iC2);
+
+compareClustering(I,I2, k);
+evaluateClustering(I,I2,k)
+
+
+
 
 
