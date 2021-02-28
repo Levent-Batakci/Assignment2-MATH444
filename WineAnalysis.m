@@ -1,5 +1,5 @@
 %Levent Batakci
-%Analyze all the data!
+%Analyze the data!
 
 %Clear vars
 clc

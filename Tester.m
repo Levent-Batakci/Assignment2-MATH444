@@ -5,7 +5,9 @@ D=[zeros(10,5) ones(10,5) -1 * ones(10,5)];
 tau = 0.05;
 
 %[I, C] = kMeans(k, D, tau, maxDepth);
-[I, cI] = kMedoids(k, D, tau, maxDepth, @norm)
+d = dMatrix(D, @norm2);
+d
+[I, cI] = kMedoids_distMatrix(k, d, tau, maxDepth)
 
 
 I1= [1 1 2 2];
