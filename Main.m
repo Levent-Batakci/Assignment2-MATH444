@@ -21,9 +21,9 @@ figure(1)
 plot(1:13, diag(D), '.', 'MarkerSize', 25); %Only two svs (or just 1) matter
 
 figure(2)
-Z2 = [U(:,1) U(:,2)]' * X;
+Z2 = [U(:,1) U(:,2)]' * Xc;
 
-distMatrix = norm2Matrix(X);
+distMatrix = norm2Matrix(Xc);
 [I1, iC] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
 k1 = Z2(:, I1 == 1);
 k2 = Z2(:, I1 == 2);
@@ -33,9 +33,10 @@ hold on
 scatter(k1(1,:), k1(2,:),125,'r.')
 scatter(k2(1,:), k2(2,:),125,'g.')
 scatter(k3(1,:), k3(2,:),125,'b.')
+legend("Cluster A","Cluster B","Cluster C");
 xlabel("PC 1")
-ylabel("PC 2");
-set(gca,'FontSize', 15);
+ylabel("PC 2"); 
+set(gca,'FontSize', 18);
 hold off
 
 %Check for accuracy
@@ -48,13 +49,31 @@ hold on
 scatter(k1(1,:), k1(2,:),125,'r.')
 scatter(k2(1,:), k2(2,:),125,'g.')
 scatter(k3(1,:), k3(2,:),125,'b.')
+legend("Cultivar 1","Cultivar 2","Cultivar 3")
 xlabel("PC 1");
 ylabel("PC 2");
-set(gca,'FontSize', 15);
+set(gca,'FontSize', 18);
 hold off
 
 compareClustering(I,I1, k);
 evaluateClustering(I,I1,k)
+
+figure(4)
+[Im, iC] = kMeans(k, Xc, tau, maxDepth, @norm2);
+k1 = Z2(:, Im == 1);
+k2 = Z2(:, Im == 2);
+k3 = Z2(:, Im == 3);
+hold on
+scatter(k1(1,:), k1(2,:),125,'r.')
+scatter(k2(1,:), k2(2,:),125,'g.')
+scatter(k3(1,:), k3(2,:),125,'b.')
+legend("Cluster A","Cluster B","Cluster C");
+xlabel("PC 1")
+ylabel("PC 2"); 
+set(gca,'FontSize', 18);
+hold off
+
+evaluateClustering(I,Im,k)
 %%%
 
 %Load Congressional Vote Data
