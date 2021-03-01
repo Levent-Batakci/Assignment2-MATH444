@@ -42,7 +42,7 @@ hold off
 %Plot the clustering via the first two PCs
 figure(3)
 distMatrix = dMatrix(X, @norm2);
-I1 = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
+[I1, iC] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
 k1 = Z2(:, I1 == 1);
 k2 = Z2(:, I1 == 2);
 k3 = Z2(:, I1 == 3);
@@ -51,6 +51,9 @@ hold on
 scatter(k1(1,:), k1(2,:),125,'r.')
 scatter(k2(1,:), k2(2,:),125,'g.')
 scatter(k3(1,:), k3(2,:),125,'b.')
+scatter(Z2(1,iC(1,1)), Z2(2,iC(1,1)),150,'ks')
+scatter(Z2(1,iC(1,2)), Z2(2,iC(1,2)),150,'ks')
+scatter(Z2(1,iC(1,3)), Z2(2,iC(1,3)),150,'ks')
 legend("Cluster A","Cluster B","Cluster C");
 xlabel("PC 1")
 ylabel("PC 2"); 
@@ -65,7 +68,7 @@ disp(" ");
 %Cluster using kMeans
 %Plot the clustering via the first two PCs
 figure(4)
-[Im, iC] = kMeans(k, X, tau, maxDepth, @norm2);
+[Im, C] = kMeans(k, X, tau, maxDepth, @norm2);
 k1 = Z2(:, Im == 1);
 k2 = Z2(:, Im == 2);
 k3 = Z2(:, Im == 3);

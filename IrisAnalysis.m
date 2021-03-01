@@ -4,6 +4,7 @@
 %Clear vars
 clc
 clear all
+clf
 
 %Load IRIS data
 load IrisData.mat
@@ -42,7 +43,7 @@ hold off
 %Plot the clustering via the first two PCs
 figure(3)
 distMatrix = dMatrix(Xc, @norm2);
-I1 = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
+[I1, iC1] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth);
 k1 = Z2(:, I1 == 1);
 k2 = Z2(:, I1 == 2);
 k3 = Z2(:, I1 == 3);
@@ -51,11 +52,16 @@ hold on
 scatter(k1(1,:), k1(2,:),125,'r.')
 scatter(k2(1,:), k2(2,:),125,'g.')
 scatter(k3(1,:), k3(2,:),125,'b.')
-legend("Cluster A","Cluster B","Cluster C");
+scatter(Z2(1,iC1(1,1)), Z2(2,iC1(1,1)),150,'ks')
+scatter(Z2(1,iC1(1,2)), Z2(2,iC1(1,2)),150,'ks')
+scatter(Z2(1,iC1(1,3)), Z2(2,iC1(1,3)),150,'ks')
+legend("Cluster A","Cluster B", "Cluster C");
 xlabel("PC 1")
 ylabel("PC 2"); 
 set(gca,'FontSize', 18);
 sgtitle("Clustering Given by kMedoids", 'FontSize', 20)
+
+
 hold off
 
 disp("Clustering Matrix for kMedoids");
@@ -65,7 +71,8 @@ disp(" ");
 %Cluster using kMeans
 %Plot the clustering via the first two PCs
 figure(4)
-[Im, iC] = kMeans(k, Xc, tau, maxDepth, @norm2);
+[Im, C] = kMeans(k, Xc, tau, maxDepth, @norm2);
+C2 = [U(:,1) U(:,2)]' * C;
 k1 = Z2(:, Im == 1);
 k2 = Z2(:, Im == 2);
 k3 = Z2(:, Im == 3);
@@ -73,6 +80,9 @@ hold on
 scatter(k1(1,:), k1(2,:),125,'r.')
 scatter(k2(1,:), k2(2,:),125,'g.')
 scatter(k3(1,:), k3(2,:),125,'b.')
+scatter(C2(1,1), C2(2,1),125,'k*')
+scatter(C2(1,2), C2(2,2),125,'k*')
+scatter(C2(1,3), C2(2,3),125,'k*')
 xlabel("PC 1")
 ylabel("PC 2"); 
 set(gca,'FontSize', 18);
