@@ -3,7 +3,7 @@
 %MATH444 Assignment 2
 
 function [I, iC] = kMedoids_distMatrix(k, distMatrix, tau, maxDepth)
-%KMEDOIDS is a function that separates the data into
+%KMEDOIDS_DISTMATRIX is a function that separates the data into
 %  k clusters by using alternating optimization.
 %This optimization is iterative, and stops when the
 %  change in coherence < tau

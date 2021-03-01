@@ -35,7 +35,7 @@ legend("Cultivar 1","Cultivar 2","Cultivar 3")
 xlabel("PC 1");
 ylabel("PC 2");
 set(gca,'FontSize', 18);
-sgtitle("Correct Grouping of the Data")
+sgtitle("Correct Grouping of the Data", 'FontSize', 20)
 hold off
 
 %Cluster using kMedoids
@@ -55,7 +55,7 @@ legend("Cluster A","Cluster B","Cluster C");
 xlabel("PC 1")
 ylabel("PC 2"); 
 set(gca,'FontSize', 18);
-sgtitle("Clustering Given by kMedoids")
+sgtitle("Clustering Given by kMedoids", 'FontSize', 20)
 hold off
 
 disp("Clustering Matrix for kMedoids");
@@ -77,7 +77,7 @@ legend("Cluster A","Cluster B","Cluster C");
 xlabel("PC 1")
 ylabel("PC 2"); 
 set(gca,'FontSize', 18);
-sgtitle("Clustering Given by kMeans")
+sgtitle("Clustering Given by kMeans", 'FontSize', 20)
 hold off
 
 disp("Clustering Matrix for kMeans");
